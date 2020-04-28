@@ -1,0 +1,37 @@
+#makeCacheMatrix
+makeCacheMatrix<-function(mat=matrix())
+{
+    inv<-NULL
+    setmat<-function(matrix)
+    {
+        mat<<-matrix
+        inv<<-NULL
+    }
+    getmat<-function()
+    {
+        mat
+    }
+    setinv<-function(inverse)
+    {
+        inv<<-inverse
+    }
+    getinv<-function()
+    {
+        inv
+    }
+    list(set=set,get=get,setinv=setinv,getinv=getinv)
+}
+#cacheSolve
+cacheSolve<-function(x,...)
+{
+    mat<-x$getinv()
+    if(!is.null(mat))
+    {
+        message("Getting the cached data")
+        return(mat)
+    }
+    data<-x$get()
+    mat<-solve(data)%*%data
+    x$setinv(mat)
+    mat
+}
